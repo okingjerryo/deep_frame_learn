@@ -1,6 +1,4 @@
 import tensorflow as tf
-import tensorrt as trt
-import numpy as np
 
 # 可以将 maxrange 的范围自定义
 max_range = tf.placeholder(tf.int64,shape=[],name='max_range')
@@ -41,20 +39,39 @@ def read_data_reinit():
 
 def handle_itor_lr():
     # 创建train 数据和验证数据
-    training_dataset = tf.data.Dataset.range(100).map(
+    training_dataset = tf.data.Dataset.range(500).map(
         lambda x:trainfun(x)
     )
     validate_dataset = tf.data.Dataset.range(50)
 
 
     # 创建handle_itor
-    iterator = tf.data.Iterator.from_string_handle(data_handle,training_dataset.output_types,training_dataset.output_shapes)
+    iterator = tf.data.Iterator.from_string_handle(data_handle, training_dataset.output_types
+                                                   , training_dataset.output_shapes)
     next_elem = iterator.get_next()
 
     #分离不同的itor 计算节点给外部程序使用
+    train_itor = training_dataset.make_one_shot_iterator()
+    valid_itor = validate_dataset.make_initializable_iterator()
+
+    return train_itor, valid_itor, next_elem
 
 def read_data_handle():
-    pass
+    # 读数据时，初始化需要的itor和handle
+    train_itor, valid_itor, itor_next = handle_itor_lr()
+    with tf.Session() as sess:
+        train_handle = sess.run(train_itor.string_handle())
+        valid_handle = sess.run(valid_itor.string_handle())
+
+        # 模拟 epoch
+        # while True:       会报 outofrangeError
+        # todo: 调整itor使其可以循环
+        for _ in range(200):
+            sess.run(itor_next, feed_dict={data_handle: train_handle})
+        # initable itor 需要初始化
+        sess.run(valid_itor.initializer)  # 与reinitable 不同，feedable itor 直接在sess中定义即可
+        for _ in range(50):
+            sess.run(itor_next, feed_dict={data_handle: valid_handle})
 
 if __name__ == '__main__':
     read_data_handle()

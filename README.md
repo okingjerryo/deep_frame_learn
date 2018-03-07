@@ -9,4 +9,4 @@ deep-learning code framework learning , such tensorflow pytorch an so on
 - TFRecord
 
 ## lastest updated
-18-3-6 dataset learning in string handle
+18-3-7 convert image data to tfRecord and try to merge in tfDataset

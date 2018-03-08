@@ -2,7 +2,7 @@
 deep-learning code framework learning , such tensorflow pytorch an so on
 
 ## tensorflow
-> code learned from tensorflow.org/develop
+> code learned from tensorflow.org/develop in offical site
 > and vahidk/EffectiveTensorflow in github
 ### base
 - Dataset

@@ -3,10 +3,10 @@ deep-learning code framework learning , such tensorflow pytorch an so on
 
 ## tensorflow
 > code learned from tensorflow.org/develop
-> and vahidk/EffectiveTensorflow
+> and vahidk/EffectiveTensorflow in github
 ### base
 - Dataset
 - TFRecord
 
 ## lastest updated
-18-3-7 convert image data to tfRecord and try to merge in tfDataset
+18-3-8 all Dataset learn is complete. now dataset.py can read '.tfrecord' data, also with simple image random crop.also use MonitoredTrainingSession to auto stop session in the number of steps have been setted.

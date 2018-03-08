@@ -32,7 +32,7 @@ def write_pathimg_to_record(filepath, record_name):
     print('file convert start')
     print('detect', len(filepath), 'files')
     # 定义存储位置和writer
-    record_path = PATH2RECORD + record_name + '.tfrecords'
+    record_path = PATH2RECORD + record_name + '.tfrecord'
     writer = tf.python_io.TFRecordWriter(record_path)
     # 开启sess写入图片
     with tf.Session() as sess:
@@ -49,7 +49,11 @@ def write_pathimg_to_record(filepath, record_name):
     print('convert end')
 
 
-if __name__ == '__main__':
+def read_img_and_save():
     filepath = glob(r'../resource/image/*.*')
     record_name = 'test'
     write_pathimg_to_record(filepath, record_name)
+
+
+if __name__ == '__main__':
+    read_img_and_save()
